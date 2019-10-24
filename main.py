@@ -1,4 +1,6 @@
 from constants import Constants
+import networkx as nx
+import numpy as np
 
 
 class Main:
@@ -10,11 +12,15 @@ class Main:
         self.__array_rede_barabasi_albert = []
 
     def execute(self):
+        counter = 1
         for n in Constants.N_ARRAY:
             for p in Constants.P_ARRAY:
-                self.__array_rede_small_world.append(self.__executeSmallWorld(n, p))
-                self.__array_rede_erdos.append(self.__executeErdos(n, p))
-                self.__array_rede_barabasi_albert(self.__executeBarabasiAlbert(n, p))
+                print(counter)
+                self.__array_rede_small_world.append(self.__execute_small_world(n, p))
+                self.__array_rede_erdos.append(self.__execute_erdos(n, p))
+                self.__array_rede_barabasi_albert.append(self.__execute_barabasi_albert(n, p))
+                counter = counter + 1
+                print("\n")
         self.__gerar_arquivo()
         self.__plot_graficos()
 
@@ -22,10 +28,28 @@ class Main:
         pass
 
     def __execute_erdos(self, n, p):
-        pass
+        print("Erdos")
+        er = nx.erdos_renyi_graph(n, p)
+        degree_sequence = list(er.degree())
+        self.__calculate_properties(degree_sequence)
+
+    @staticmethod
+    def __calculate_properties(degree_sequence):
+        avg_degree = np.mean(np.array(degree_sequence)[:, 1])
+        med_degree = np.median(np.array(degree_sequence)[:, 1])
+        max_degree = max(np.array(degree_sequence)[:, 1])
+        min_degree = np.min(np.array(degree_sequence)[:, 1])
+        print("Média: ", avg_degree)
+        print("Mediana", med_degree)
+        print("Máxima", max_degree)
+        print("Mínima", min_degree)
 
     def __execute_barabasi_albert(self, n, p):
-        pass
+        m = 5 # Número de arestas a serem anexadas de um novo nó aos nós existentes
+        print("Barabasi Albert")
+        ba = nx.extended_barabasi_albert_graph(n, m, p, p, seed=None)
+        degree_sequence = list(ba.degree())
+        self.__calculate_properties(degree_sequence)
 
     def __gerar_arquivo(self):
         pass
