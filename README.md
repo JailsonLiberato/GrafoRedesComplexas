@@ -1,4 +1,4 @@
-#GrafoRedesComplexas
+# Grafo Redes Complexas
 
 Grafo de redes complexas
 1. Instalar o pacote networkX (Pacote de redes complexas em Python). 
