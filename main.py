@@ -10,6 +10,7 @@ class Main:
         self.__array_rede_small_world = []
         self.__array_rede_erdos = []
         self.__array_rede_barabasi_albert = []
+        self.__seed = 42
 
     def execute(self):
         counter = 1
@@ -28,7 +29,7 @@ class Main:
         pass
 
     def __execute_erdos(self, n, p):
-        print("Erdos")
+        print("[Erdos]")
         er = nx.erdos_renyi_graph(n, p)
         degree_sequence = list(er.degree())
         self.__calculate_properties(degree_sequence)
@@ -45,9 +46,10 @@ class Main:
         print("Mínima", min_degree)
 
     def __execute_barabasi_albert(self, n, p):
-        m = 5 # Número de arestas a serem anexadas de um novo nó aos nós existentes
-        print("Barabasi Albert")
-        ba = nx.extended_barabasi_albert_graph(n, m, p, p, seed=None)
+        m = 3 # Número de arestas a serem anexadas de um novo nó aos nós existentes
+        print("[Barabasi Albert]")
+        q = (1 - p) - 0.000000000001
+        ba = nx.extended_barabasi_albert_graph(n, m, p, q, seed=self.__seed)
         degree_sequence = list(ba.degree())
         self.__calculate_properties(degree_sequence)
 
