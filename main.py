@@ -16,7 +16,7 @@ class Main:
         counter = 1
         for n in Constants.N_ARRAY:
             for p in Constants.P_ARRAY:
-                print(counter)
+                print("### ", counter, "###")
                 self.__array_rede_small_world.append(self.__execute_small_world(n, p))
                 self.__array_rede_erdos.append(self.__execute_erdos(n, p))
                 self.__array_rede_barabasi_albert.append(self.__execute_barabasi_albert(n, p))
@@ -26,10 +26,14 @@ class Main:
         self.__plot_graficos()
 
     def __execute_small_world(self, n, p):
-        pass
+        print("\n[Small World]")
+        k = 2 # Cada nó está conectado aos k vizinhos mais próximos na topologia em anel.
+        ws = nx.watts_strogatz_graph(n, k, p, self.__seed)
+        degree_sequence = list(ws.degree())
+        self.__calculate_properties(degree_sequence)
 
     def __execute_erdos(self, n, p):
-        print("[Erdos]")
+        print("\n[Erdos]")
         er = nx.erdos_renyi_graph(n, p)
         degree_sequence = list(er.degree())
         self.__calculate_properties(degree_sequence)
@@ -47,7 +51,7 @@ class Main:
 
     def __execute_barabasi_albert(self, n, p):
         m = 3 # Número de arestas a serem anexadas de um novo nó aos nós existentes
-        print("[Barabasi Albert]")
+        print("\n[Barabasi Albert]")
         q = (1 - p) - 0.000000000001
         ba = nx.extended_barabasi_albert_graph(n, m, p, q, seed=self.__seed)
         degree_sequence = list(ba.degree())
