@@ -29,6 +29,10 @@ class Main:
 
     def execute(self):
         self.__plt_charts.generate_table_dataframe(self.__array_rede_small_world)
+        self.__plt_charts.generate_table_dataframe(self.__array_rede_erdos)
+        self.__plt_charts.generate_table_dataframe(self.__array_rede_barabasi_albert)
+        self.__plt_charts.generate_line_chart(self.__array_rede_small_world, self.__array_rede_erdos,
+                                              self.__array_rede_barabasi_albert)
         print("\n\n\n\t### Fim da aplicação...")
 
     def __execute_small_world(self, n, p):
