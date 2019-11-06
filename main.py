@@ -121,10 +121,10 @@ class Main:
         for element in function_array.split("#")[1].split("|"):
             if element != '\n':
                 rede = Rede(type_network,
-                             element.split("_")[0],
-                             element.split("_")[1],
-                             element.split("_")[2],
-                             element.split("_")[3])
+                             float(element.split("_")[0]),
+                             float(element.split("_")[1]),
+                             float(element.split("_")[2]),
+                             float(element.split("_")[3]))
                 array.append(rede)
 
 
