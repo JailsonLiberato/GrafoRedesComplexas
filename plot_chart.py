@@ -31,10 +31,9 @@ class PlotChart:
                 array_rede2[3][y] = rede2.minima
                 array_rede3[3][y] = rede3.minima
             self.__configure_bar_chart(array_rede1, array_rede2, array_rede3, str(Constants.N_ARRAY[x]))
-    
 
     def __configure_bar_chart(self, small_world_array, erdos_array, albert_barabasi_array, n_name):
-        barWidth = 0.25
+        bar_width = 0.25
 
         for i in range(4):
             # set height of bar
@@ -44,35 +43,37 @@ class PlotChart:
             
             # Set position of bar on X axis
             r1 = np.arange(len(bars1))
-            r2 = [x + barWidth for x in r1]
-            r3 = [x + barWidth for x in r2]
+            r2 = [x + bar_width for x in r1]
+            r3 = [x + bar_width for x in r2]
             # Make the plot
+            plt.figure(figsize=(18.0, 12.0))
             title = self.__get_title_metric(i) + " " + n_name
             ax = plt.subplot(111, frame_on=False)  # no visible frame
             ax.set_title(title, fontdict={'fontsize': 15, 'fontweight': 'medium'})
-            plt.bar(r1, bars1, color='r', width=barWidth, edgecolor='white', label='SmallWorlds')
-            plt.bar(r2, bars2, color='b', width=barWidth, edgecolor='white', label='Erdos')
-            plt.bar(r3, bars3, color='g', width=barWidth, edgecolor='white', label='Barabasi')
+            plt.bar(r1, bars1, color='r', width=bar_width, edgecolor='white', label='SmallWorlds')
+            plt.bar(r2, bars2, color='b', width=bar_width, edgecolor='white', label='Erdos')
+            plt.bar(r3, bars3, color='g', width=bar_width, edgecolor='white', label='Barabasi')
             
             # Add xticks on the middle of the group bars
             plt.xlabel('Probabilidades', fontweight='bold')
-            plt.xticks([r + barWidth for r in range(len(bars1))], Constants.P_ARRAY)
+            plt.xticks([r + bar_width for r in range(len(bars1))], Constants.P_ARRAY)
             plt.legend()
             plt.savefig('charts/' + title + '.png')
             plt.close()
 
-    def __get_title_metric(self, index_metric):
-        if(index_metric == 0):
+    @staticmethod
+    def __get_title_metric(index_metric):
+        if index_metric == 0:
             return "Media"
-        elif(index_metric == 1):
+        elif index_metric == 1:
             return "Mediana"
-        elif(index_metric == 2):
+        elif index_metric == 2:
             return "Maxima"
         else:
             return "Minima"
 
-
-    def generate_table_dataframe(self, array: Rede):
+    @staticmethod
+    def generate_table_dataframe(array: Rede):
         """Gera a tabela o resumo dos dados."""
         medias = []
         medianas = []
@@ -91,10 +92,4 @@ class PlotChart:
         mins = np.array(mins).reshape(1, size).T
         data = np.concatenate((medias, medianas, maxs, mins), axis=1)
         df = pd.DataFrame(data, columns=['Média', 'Mediana', 'Max', 'Min'])
-        ax = plt.subplot(111, frame_on=False)  # no visible frame
-        ax.set_title(title, fontdict={'fontsize': 15, 'fontweight': 'medium'})
-        ax.table(cellText=df.values, colLabels=df.columns, loc='center')
-        ax.xaxis.set_visible(False)  # hide the x axis
-        ax.yaxis.set_visible(False)  # hide the y axis
-        plt.savefig('table summary' + title + '.png')
-        plt.close()
+        df.to_csv(r'table/table_summary' + " " + title + ".csv")
