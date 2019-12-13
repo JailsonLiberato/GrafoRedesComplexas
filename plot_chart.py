@@ -36,11 +36,14 @@ class PlotChart:
         bar_width = 0.25
 
         for i in range(4):
+            # bars1 = [bars1extra[i] for i in range(len(bars1extra))if i % 2 == 0]
+            # bars2 = [bars2extra[i] for i in range(len(bars2extra))if i % 2 == 0]
+            # bars3 = [bars3extra[i] for i in range(len(bars3extra))if i % 2 == 0]
+
             # set height of bar
             bars1 = small_world_array[i].tolist()
             bars2 = erdos_array[i].tolist()
             bars3 = albert_barabasi_array[i].tolist()
-            # print(bars1)
             # Set position of bar on X axis
             r1 = np.arange(len(bars1))
             r2 = [x + bar_width for x in r1]
@@ -50,15 +53,15 @@ class PlotChart:
             title = self.__get_title_metric(i) + "" + n_name
             ax = plt.subplot(111, frame_on=False)  # no visible frame
             # ax.set_title(title, fontdict={'fontsize': 15, 'fontweight': 'medium'})
-            plt.bar(r1, bars1, color='r', width=bar_width, edgecolor='white', label='SmallWorlds', hatch="/")
-            plt.bar(r2, bars2, color='b', width=bar_width, edgecolor='white', label='Erdos', hatch='*')
-            plt.bar(r3, bars3, color='g', width=bar_width, edgecolor='white', label='Barabasi', hatch='-')
+            plt.bar(r1, bars1, color='k', width=bar_width, edgecolor='white', label='SmallWorlds', hatch="/")
+            plt.bar(r2, bars2, color='grey', width=bar_width, edgecolor='white', label='Erdos', hatch='*')
+            plt.bar(r3, bars3, color='lightgrey', width=bar_width, edgecolor='white', label='Barabasi', hatch='-')
             
             # Add xticks on the middle of the group bars
             plt.xlabel('Probabilidades', fontweight='bold')
             plt.xticks([r + bar_width for r in range(len(bars1))], Constants.P_ARRAY)
             plt.legend()
-            plt.rcParams.update({'font.size': 25})
+            plt.rcParams.update({'font.size': 30})
             plt.savefig('charts/' + title + '.png')
             plt.close()
 
